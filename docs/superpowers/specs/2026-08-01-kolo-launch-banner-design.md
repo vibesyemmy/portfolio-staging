@@ -8,7 +8,10 @@
 
 - **Behavior:** dismissible, stays pinned while scrolling.
 - **Scope:** every page.
-- **Style:** dark strip with an orange accent (matches the existing `.dark-section` language).
+- **Style:** bright orange strip (`--accent`) with dark ink on top. Because the fill
+  is the accent colour, everything on the strip inverts: the `NEW` chip becomes a
+  dark pill with white text, and the call to action carries a standing underline
+  rather than a colour change (nothing on the strip can be tinted orange any more).
 
 ## Placement and the nav collision
 

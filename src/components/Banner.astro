@@ -75,8 +75,9 @@
     gap: 0.5rem;
     height: var(--banner-h);
     padding-inline: 1rem;
-    background: var(--dark-bg);
-    color: var(--dark-ink);
+    /* --accent is a fill-only token: dark ink on top, never light */
+    background: var(--accent);
+    color: var(--dark-bg);
     font-size: var(--text-small);
   }
 
@@ -104,8 +105,9 @@
     line-height: 1;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--dark-bg);
-    background: var(--accent);
+    /* inverted against the orange strip so the chip still reads as a badge */
+    color: var(--dark-ink);
+    background: var(--dark-bg);
     border-radius: var(--radius-pill);
     /* letter-spacing appends a trailing space after the final glyph, so equal
        padding reads left-heavy — trim that space back off the right */
@@ -129,12 +131,18 @@
     align-items: center;
     gap: 0.3rem;
     font-weight: 600;
-    color: var(--accent);
-  }
-
-  .banner__link:hover .banner__cta {
+    color: inherit;
     text-decoration: underline;
     text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: rgb(10 10 10 / 40%);
+    transition: text-decoration-color 0.2s ease;
+  }
+
+  /* the CTA can't lean on colour any more (everything on the strip is dark ink),
+     so it carries a standing underline that solidifies on hover */
+  .banner__link:hover .banner__cta {
+    text-decoration-color: currentColor;
   }
 
   /* the arrow nudges on hover — motion-gated below */
@@ -153,13 +161,13 @@
     border: 0;
     border-radius: 50%;
     background: transparent;
-    color: var(--dark-ink-2);
+    color: rgb(10 10 10 / 55%);
     cursor: pointer;
   }
 
   .banner__close:hover {
-    color: var(--dark-ink);
-    background: rgb(255 255 255 / 10%);
+    color: var(--dark-bg);
+    background: rgb(10 10 10 / 10%);
   }
 
   /* One line at every width: the long clause and the CTA label drop out before
