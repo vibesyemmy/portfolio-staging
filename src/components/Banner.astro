@@ -94,14 +94,23 @@
 
   .banner__tag {
     flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-family: var(--font-mono);
     font-size: var(--text-eyebrow);
+    /* own leading: inheriting the body's 1.6 line-height seated the label high
+       in the pill */
+    line-height: 1;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--dark-bg);
     background: var(--accent);
     border-radius: var(--radius-pill);
-    padding: 0.15rem 0.5rem;
+    /* letter-spacing appends a trailing space after the final glyph, so equal
+       padding reads left-heavy — trim that space back off the right */
+    padding: 0.4rem 0.5rem;
+    padding-right: calc(0.5rem - 0.16em);
   }
 
   .banner__text {
