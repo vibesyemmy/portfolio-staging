@@ -1,0 +1,184 @@
+---
+// Launch announcement strip, pinned to the top of every page (rendered as the
+// first body child in Layout.astro).
+//
+// position: sticky (not fixed) is load-bearing: the banner stays in normal flow
+// so it reserves its own space and pushes the page down — no body-padding hack —
+// while still pinning during scroll. The nav is `fixed`, so it ignores that flow
+// and reads --banner-h to offset itself instead (see Nav.astro + global.css).
+---
+
+<aside class="banner" aria-label="Announcement" data-banner>
+  <a
+    class="banner__link"
+    href="https://usekolo.app/"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <span class="banner__tag">New</span>
+    <span class="banner__text">
+      I launched <strong>Kolo</strong><span class="banner__long"
+        > — turn one palette into contrast-safe tokens and code.</span
+      ><span class="banner__short"> — the color studio.</span>
+    </span>
+    <span class="banner__cta">
+      <span class="banner__cta-long">Try it free</span>
+      <span aria-hidden="true">→</span>
+    </span>
+  </a>
+
+  <button class="banner__close" type="button" aria-label="Dismiss announcement" data-banner-close>
+    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+      <path
+        d="M4 4l8 8M12 4l-8 8"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+      ></path>
+    </svg>
+  </button>
+</aside>
+
+<script>
+  const banner = document.querySelector<HTMLElement>('[data-banner]');
+  const close = document.querySelector<HTMLButtonElement>('[data-banner-close]');
+
+  close?.addEventListener('click', () => {
+    // The attribute drives the CSS (hides the strip and zeroes --banner-h, which
+    // slides the nav back up); localStorage makes it stick across visits. The
+    // pre-paint script in Layout.astro replays it before first paint so a
+    // returning visitor never sees the banner flash in and out.
+    document.documentElement.dataset.koloBanner = 'dismissed';
+    try {
+      localStorage.setItem('kolo-banner', 'dismissed');
+    } catch {
+      /* private mode / storage disabled — dismissal just won't persist */
+    }
+    banner?.addEventListener(
+      'transitionend',
+      () => {
+        window.dispatchEvent(new Event('resize')); // let ScrollTrigger re-measure
+      },
+      { once: true }
+    );
+  });
+</script>
+
+<style>
+  .banner {
+    position: sticky;
+    top: 0;
+    z-index: 110; /* above the nav (100) so it never slides underneath */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: var(--banner-h);
+    padding-inline: 1rem;
+    background: var(--dark-bg);
+    color: var(--dark-ink);
+    font-size: var(--text-small);
+  }
+
+  html[data-kolo-banner='dismissed'] .banner {
+    display: none;
+  }
+
+  .banner__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+    color: inherit;
+  }
+
+  .banner__tag {
+    flex: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-eyebrow);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--dark-bg);
+    background: var(--accent);
+    border-radius: var(--radius-pill);
+    padding: 0.15rem 0.5rem;
+  }
+
+  .banner__text {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .banner__text strong {
+    font-weight: 600;
+  }
+
+  .banner__cta {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .banner__link:hover .banner__cta {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* the arrow nudges on hover — motion-gated below */
+  .banner__cta [aria-hidden] {
+    display: inline-block;
+  }
+
+  .banner__close {
+    position: absolute;
+    right: 0.5rem;
+    display: inline-grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--dark-ink-2);
+    cursor: pointer;
+  }
+
+  .banner__close:hover {
+    color: var(--dark-ink);
+    background: rgb(255 255 255 / 10%);
+  }
+
+  /* One line at every width: the long clause and the CTA label drop out before
+     the text is ever allowed to wrap, because a wrapped banner would be taller
+     than --banner-h and the fixed nav would overlap it. */
+  .banner__short {
+    display: none;
+  }
+
+  @media (max-width: 40rem) {
+    .banner {
+      padding-inline: 0.75rem 2.5rem;
+    }
+    .banner__long,
+    .banner__cta-long {
+      display: none;
+    }
+    .banner__short {
+      display: inline;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .banner__cta [aria-hidden] {
+      transition: transform 0.2s ease;
+    }
+    .banner__link:hover .banner__cta [aria-hidden] {
+      transform: translateX(3px);
+    }
+  }
+</style>

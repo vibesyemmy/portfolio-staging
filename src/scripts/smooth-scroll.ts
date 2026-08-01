@@ -13,12 +13,19 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
   // Expose for scroll-to-top FAB and other consumers
   (window as any).__lenis = lenis;
 
-  const NAV_OFFSET = -96; // px — stop short of the target so the fixed nav clears it
+  // px — stop short of the target so the fixed nav clears it, plus the sticky
+  // announcement banner's height. Read live rather than cached: dismissing the
+  // banner zeroes --banner-h, and the next anchor jump must use the new value.
+  const navOffset = () => {
+    const banner =
+      parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--banner-h')) || 0;
+    return -(96 + banner);
+  };
   const onHome = () => location.pathname === '/';
 
   const scrollToHash = (hash: string, immediate = false) => {
     const target = document.querySelector(hash);
-    if (target) lenis.scrollTo(target as HTMLElement, { offset: NAV_OFFSET, immediate });
+    if (target) lenis.scrollTo(target as HTMLElement, { offset: navOffset(), immediate });
   };
 
   // In-page anchors — handles both "#x" and "/#x". The "/#x" form lets the global
@@ -34,7 +41,7 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const target = document.querySelector(hash);
       if (!target) return;
       e.preventDefault();
-      lenis.scrollTo(target as HTMLElement, { offset: NAV_OFFSET });
+      lenis.scrollTo(target as HTMLElement, { offset: navOffset() });
     });
   });
 

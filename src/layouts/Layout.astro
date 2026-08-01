@@ -4,6 +4,7 @@ import '@fontsource/fragment-mono';
 import '../styles/tokens.css';
 import '../styles/global.css';
 import ScrollTop from '../components/ScrollTop.astro';
+import Banner from '../components/Banner.astro';
 
 interface Props {
   title?: string;
@@ -22,6 +23,15 @@ const {
     <meta charset="utf-8" />
     <script is:inline>
       document.documentElement.classList.add('js');
+      // Replay a dismissed announcement banner BEFORE first paint, so a returning
+      // visitor never sees it render and then vanish (and the nav never jumps).
+      try {
+        if (localStorage.getItem('kolo-banner') === 'dismissed') {
+          document.documentElement.dataset.koloBanner = 'dismissed';
+        }
+      } catch (e) {
+        /* storage disabled — banner simply shows */
+      }
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -30,6 +40,7 @@ const {
     <title>{title}</title>
   </head>
   <body>
+    <Banner />
     <slot />
     <ScrollTop />
     <script>

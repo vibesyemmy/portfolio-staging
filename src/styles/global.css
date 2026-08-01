@@ -143,8 +143,20 @@ h3 {
   outline-offset: 2px;
 }
 
+/* Height of the sticky announcement banner (Banner.astro). The fixed nav and the
+   anchor scroll offsets read this so they clear the strip; dismissing the banner
+   zeroes it and everything slides back up. Kept next to its override so the pair
+   can't drift apart. */
+:root {
+  --banner-h: 44px;
+}
+
+html[data-kolo-banner='dismissed'] {
+  --banner-h: 0px;
+}
+
 html {
-  scroll-padding-top: 6rem;
+  scroll-padding-top: calc(6rem + var(--banner-h, 0px));
 }
 
 /* Hero avatar bowling easter egg — script-built overlay (see scripts/bowling.ts) */

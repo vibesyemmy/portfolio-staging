@@ -107,7 +107,9 @@ const ICON_COLOR = '#666666'; // matches --ink-2 (the resting link colour)
   .nav-wrap {
     position: fixed;
     inset-inline: 0;
-    top: 1rem;
+    /* the nav is fixed, so it ignores the sticky banner's flow — offset it by the
+       banner height instead (0 once the banner is dismissed) */
+    top: calc(1rem + var(--banner-h, 0px));
     display: flex;
     justify-content: center;
     z-index: 100;
