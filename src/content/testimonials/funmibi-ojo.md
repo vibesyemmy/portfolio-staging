@@ -3,7 +3,7 @@ author: Funmibi Ojo
 role: Design Lead
 company: Sabi
 order: 5
-draft: true
+draft: false
 ---
 
 We asked for a logo and got a system we still design against. Opeyemi was

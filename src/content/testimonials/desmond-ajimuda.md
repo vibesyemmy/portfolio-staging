@@ -3,7 +3,7 @@ author: Desmond Ajimuda
 role: Senior Designer
 company: Hydrogen Pay
 order: 6
-draft: true
+draft: false
 ---
 
 He is the person you want reviewing your work. Opeyemi will tell you the

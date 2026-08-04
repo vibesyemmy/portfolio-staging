@@ -3,7 +3,7 @@ author: Seun Akinloye
 role: Head of Design
 company: Hydrogen Pay
 order: 4
-draft: true
+draft: false
 ---
 
 Opeyemi builds the things the rest of the team ends up standing on. Poseidon
