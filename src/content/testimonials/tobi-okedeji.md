@@ -1,6 +1,6 @@
 ---
 author: Tobi Okedeji
-role: Design Lead
+role: Developer
 order: 1
 ---
 

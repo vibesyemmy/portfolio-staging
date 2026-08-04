@@ -1,6 +1,6 @@
 ---
 author: Thompson Edolo
-role: Product Designer
+role: Full-Stack Developer
 order: 2
 ---
 
