@@ -8,9 +8,9 @@ const bio =
 
 const experience = [
   {
-    role: 'Senior Product Designer',
+    role: 'Senior UI/UX Designer',
     company: 'Sabi',
-    period: '2024 to Present',
+    period: 'Sep 2024 to Present',
     current: true,
     summary:
       'Leading design across a $38M-backed B2B platform serving 300,000+ African merchants. Own the end-to-end experience for two core products: TRACE (commodity exchange) and Loft (logistics).',
@@ -24,7 +24,7 @@ const experience = [
   {
     role: 'Lead Product Designer',
     company: 'Lingawa (formerly TopSet)',
-    period: 'Jan 2024 to Feb 2026',
+    period: 'Aug 2023 to Aug 2024',
     summary:
       'Sole designer for a Techstars-backed edtech startup. Built the design function from zero, shipped the consumer mobile app, and led a full rebrand that accompanied a $1.1M pre-seed raise.',
     points: [
@@ -35,21 +35,10 @@ const experience = [
     ],
   },
   {
-    role: 'UI/UX Lead Engineer',
-    company: 'Kobo360',
-    period: 'Dec 2021 to 2024',
-    summary:
-      'Directing the design of a global logistics operating system, fuelling platform adoption and business expansion through user-centred methodologies and cross-functional collaboration.',
-    points: [
-      'Championed user-centred design, leading research through interviews, surveys, and competitive analyses.',
-      'Pioneered a holistic design system, expediting prototyping and ensuring consistent brand representation.',
-      'Bridged functional requirements and design solutions, cutting project delivery time by 15%.',
-    ],
-  },
-  {
-    role: 'Senior Product Designer · Contract',
+    role: 'Senior Product Designer',
     company: 'Hydrogen Pay',
-    period: 'Jan 2023 to Mar 2024',
+    period: 'Nov 2022 to Jul 2023',
+    label: 'Contract',
     summary:
       'Led design solutions that grew engagement and retention, refining the product interface across web and mobile.',
     points: [
@@ -62,7 +51,7 @@ const experience = [
   {
     role: 'Senior Product Designer',
     company: 'ggCircuit',
-    period: 'Nov 2021 to Jun 2022',
+    period: 'Nov 2021 to Jul 2022',
     summary: 'Drove design for an esports product suite, lifting satisfaction and engagement across the platform.',
     points: [
       'Led design for Omega, ggLeap, ggRock, and EGL Arcade, lifting user satisfaction by 25%.',
@@ -72,9 +61,21 @@ const experience = [
     ],
   },
   {
+    role: 'UI/UX Lead Engineer',
+    company: 'Kobo360',
+    period: 'May 2021 to Oct 2021',
+    summary:
+      'Directed the design of a global logistics operating system, fuelling platform adoption and business expansion through user-centred methodologies and cross-functional collaboration.',
+    points: [
+      'Championed user-centred design, leading research through interviews, surveys, and competitive analyses.',
+      'Pioneered a holistic design system, expediting prototyping and ensuring consistent brand representation.',
+      'Bridged functional requirements and design solutions, cutting project delivery time by 15%.',
+    ],
+  },
+  {
     role: 'Senior UI/UX Designer',
     company: 'Kobo360',
-    period: 'May 2019 to Oct 2021',
+    period: 'May 2019 to Apr 2021',
     points: [
       'Delivered interfaces and wireframes that improved user engagement by 20%.',
       'Aligned design with business objectives across teams, raising goal conversions by 10%.',
@@ -144,8 +145,14 @@ const RESUME = Object.keys(resumeModules).length > 0 ? '/resume.pdf' : null;
               experience.map((e) => (
                 <li class="tl-item" data-current={e.current ? 'true' : 'false'}>
                   <span class="tl-marker" aria-hidden="true" />
-                  <p class="tl-period">{e.period}</p>
-                  <h3 class="tl-role">{e.role}</h3>
+                  <p class="tl-period">
+                    {e.period}
+                    {e.concurrent && <span class="tl-concurrent"> · {e.concurrent}</span>}
+                  </p>
+                  <h3 class="tl-role">
+                    {e.role}
+                    {e.label && <span class="tl-label">{e.label}</span>}
+                  </h3>
                   <p class="tl-company">{e.company}</p>
                   {e.summary && <p class="tl-summary">{e.summary}</p>}
                   <ul class="tl-points">
@@ -272,11 +279,30 @@ const RESUME = Object.keys(resumeModules).length > 0 ? '/resume.pdf' : null;
     font-size: var(--text-small);
   }
 
+  .tl-concurrent {
+    color: var(--accent-text);
+    font-weight: 500;
+  }
+
   .tl-role {
     font-size: clamp(1.15rem, 2vw, 1.4rem);
     font-weight: 700;
     letter-spacing: -0.01em;
     margin-top: 0.4rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tl-label {
+    font-size: var(--text-small);
+    font-weight: 500;
+    color: var(--ink-2);
+    background: var(--surface);
+    padding: 0.15em 0.6em;
+    border-radius: 6px;
+    border: 1px solid var(--line);
   }
 
   .tl-company {

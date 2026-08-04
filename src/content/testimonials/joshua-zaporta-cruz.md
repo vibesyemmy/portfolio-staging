@@ -1,6 +1,7 @@
 ---
 author: Joshua Zaporta Cruz
 role: UX Designer
+company: ggCircuit
 order: 3
 ---
 
