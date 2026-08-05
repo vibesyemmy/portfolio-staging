@@ -9,6 +9,7 @@ const projects = defineCollection({
       summary: z.string(),
       client: z.string().optional(),
       role: z.string(),
+      collaborator: z.string().optional(),
       year: z.number().optional(),
       // case-study | showcase | branding — a label/hint only; all share one layout
       kind: z.enum(['case-study', 'showcase', 'branding']).default('case-study'),

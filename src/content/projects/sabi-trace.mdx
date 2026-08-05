@@ -15,11 +15,41 @@ cover: /demo-img/trace/trace-cover.webp
 
 ## The Problem
 
-Africa holds a significant share of the world's critical mineral reserves — lithium, tantalite, tin — plus agricultural commodities like cashew and cocoa flowing from West Africa to buyers across Europe and Asia. Multi-million dollar trades. And the transaction infrastructure for most of these deals was WhatsApp, PDF contracts over email, and manual bank transfers.
+Africa holds a significant share of the world's critical mineral reserves , lithium, tantalite, tin , plus agricultural commodities like cashew and cocoa flowing from West Africa to buyers across Europe and Asia. Multi-million dollar trades. And the transaction infrastructure for most of these deals was WhatsApp, PDF contracts over email, and manual bank transfers.
 
 No standardised way to negotiate terms. No way to track a shipment from Lagos to Accra without calling someone. No way to verify a mineral was sourced ethically. No audit trail if a deal went wrong.
 
 Africa's commodity trade was doing billions of dollars with none of the infrastructure that makes trade reliable at scale.
+
+---
+
+## What We Discovered
+
+Before a single screen was designed, we spent two weeks shadowing commodity traders and logistics coordinators across Lagos alongside the product team. We sat in their offices, watched them work, and asked one question over and over: "Show me what happens when a deal goes through."
+
+What we saw was the same workflow everywhere. A buyer in Ghana WhatsApps a seller in Lagos. Terms are negotiated in voice notes. A PDF contract is emailed, printed, signed, scanned, and emailed back. Payment is confirmed with a screenshot of a bank transfer. Shipment tracking means calling the driver. If the shipment arrives short, there's no audit trail , just competing screenshots and accusations.
+
+Three things stood out:
+
+**The tools were fast but the process was slow.** A WhatsApp message took seconds. But confirming that the person on the other end was a legitimate business took days of back-channel checking. The speed of communication masked the absence of verification.
+
+**Trust was personal, not systemic.** Every deal relied on someone knowing someone. A trader in Kano would only trade with a buyer in Accra if a mutual contact vouched for them. This worked at small scale but capped growth. You can only know so many people.
+
+**Every failed deal failed for the same reason.** One party didn't hold up their end of an informal agreement. No contract. No arbitration. No way to prevent it from happening again with the next deal.
+
+The pattern was clear: these traders weren't missing technology. They were missing structure. The opportunity wasn't to digitise the WhatsApp workflow. It was to replace it with a system where trust was built into the architecture.
+
+---
+
+## The Ecosystem Shift
+
+<MediaGrid
+  cols={2}
+  items={[
+    { src: '/demo-img/trace/trace-ecosystem-before.png', alt: 'Before: Five disconnected nodes , Farmer, Trader, Buyer, Logistics, Bank , connected by chaotic dashed lines labelled WhatsApp, PDF Email, Phone Call, and Screenshot. Red X marks and warning: No audit trail, No verification, No recourse.' },
+    { src: '/demo-img/trace/trace-ecosystem-after.png', alt: 'After: Central TRACE Platform hub with five orbiting nodes , Supplier, Buyer, Logistics, Finance, Compliance , connected by clean solid lines labelled Verify, List, Negotiate, Trade, Track. Green checkmarks throughout.' },
+  ]}
+/>
 
 ---
 
@@ -31,7 +61,7 @@ First, verify who you're trading with (KYB). Then verify the product (quality te
 
 So we structured Trace around that sequence. Every module corresponds to a stage in the trust chain: Verify, Inventory, List, Negotiate, Trade, Track, Trace.
 
-A company that hasn't completed KYB can see the platform but can't trade. A product that hasn't passed verification can't be listed. A deal that hasn't been accepted can't move to payment. The architecture enforces the sequence because that's how trust is built in commodity trade — not through relationships, through structure.
+A company that hasn't completed KYB can see the platform but can't trade. A product that hasn't passed verification can't be listed. A deal that hasn't been accepted can't move to payment. The architecture enforces the sequence because that's how trust is built in commodity trade , not through relationships, through structure.
 
 <MediaFull
   width="content"
@@ -42,11 +72,35 @@ A company that hasn't completed KYB can see the platform but can't trade. A prod
 
 ---
 
+## What We Tried First
+
+The initial designs treated Trace like a marketplace , a catalogue of listings with a chat layer on top. Buyers browse, sellers post, they negotiate in a messaging thread, and a deal gets logged when both sides agree. It mirrored what traders already did on WhatsApp, just inside a platform.
+
+It didn't work. Two rounds of internal review with the product manager and engineering lead surfaced the same problem: without structured data, there was nothing to enforce. A buyer could claim they agreed to 700 metric tons. A seller could claim they agreed to 500. The chat thread became the same screenshot war it was supposed to replace.
+
+The engineering team also flagged that a chat-based negotiation model would be a nightmare to build audit trails for. Every deal would require parsing free-form text to extract terms , fragile, unreliable, and impossible to automate.
+
+The pivot came during a whiteboard session with the PM. Instead of a chat layer, what if every deal was a versioned document? Each negotiation round produces a numbered version of the deal slip. Terms are structured fields, not messages. Changes are tracked by field, not by scrolling through a chat history trying to find where the price changed.
+
+This shift , from chat to versioned document , shaped the entire negotiation module and the dual-perspective architecture that followed.
+
+### How we validated without formal testing
+
+Trace was a fast-moving startup build with an aggressive launch timeline. Formal usability testing with a large trader sample wasn't on the table. So we made validation continuous and lightweight.
+
+We brought three traders from the initial research phase back to walk through early Figma prototypes. They didn't test every screen , we focused on the two highest-risk flows: KYB (would traders abandon a 5-step verification?) and the negotiation counter-offer (would the versioned document model make sense to someone used to WhatsApp?). Both flows held up. Traders understood the KYB gates because they already lived in a world where trust had to be earned. And the versioned deal slip , showing exactly what changed between rounds , mapped to how they already tracked changes manually in their heads.
+
+For everything else, we ran structured walkthroughs with the product manager, the customer success lead (who had spent years in commodity trading), and the legal team. The CS lead was our proxy for trader behaviour , if a flow didn't match how a Lagos-based exporter actually worked, she caught it. The legal team pressure-tested every compliance gate. These weren't design reviews. They were domain-expert simulations.
+
+It wasn't perfect. If we'd had two more weeks, I'd have tested the inventory verification flow and the trade execution tabs with a broader set of traders. But the combination of trader prototypes on the riskiest flows and domain-expert walkthroughs on the rest gave us enough confidence to ship. No major flow was redesigned post-launch.
+
+---
+
 ## Designing for Two Sides of the Same Deal
 
 The product serves two users simultaneously. Sellers list products, manage inventory, negotiate terms, and dispatch shipments. Buyers discover listings, propose counter-terms, track deliveries, and manage payment milestones. The same trade looks completely different depending on which side you're on.
 
-This was the core design challenge: same screens, same data, two completely different mental models. The Seller sees a deal they published — they're accepting or countering changes. The Buyer sees a deal they received — they're proposing changes to the Seller's terms. Same deal slip. Different framing. I solved this by keeping the deal slip identical for both parties and changing only the action bar and attribution in the change history.
+This was the core design challenge: same screens, same data, two completely different mental models. The Seller sees a deal they published , they're accepting or countering changes. The Buyer sees a deal they received , they're proposing changes to the Seller's terms. Same deal slip. Different framing. I solved this by keeping the deal slip identical for both parties and changing only the action bar and attribution in the change history.
 
 ---
 
@@ -55,6 +109,8 @@ This was the core design challenge: same screens, same data, two completely diff
 ### KYB is a prerequisite, not a step
 
 Before any company can trade, they complete a Know Your Business verification. Company incorporation details, director identity verification with per-director phone OTP, document uploads. Until verified by Trace's review team within 48 hours, the company can browse but can't trade. This isn't a feature buried in settings. It's the front door.
+
+I worked closely with Sabi's legal and compliance team to get the KYB flow right. The director verification requirements , BVN, NIN, per-director OTP , came directly from their regulatory checklist. My job was to make a compliance-mandated process feel like onboarding, not an interrogation.
 
 <MediaGrid
   cols={2}
@@ -68,15 +124,15 @@ Before any company can trade, they complete a Know Your Business verification. C
 
 ### Inventory with verification gates
 
-Sellers register products from Trace's catalogue (agricultural or mineral), specifying stock, capacity, warehouse location, and measurement frequency. Once submitted, the product enters a verification queue — test partners physically verify product quality. Until Approved, it can't be listed. Three states: Approved, Pending, Declined. Simple. Enforceable.
+Sellers register products from Trace's catalogue (agricultural or mineral), specifying stock, capacity, warehouse location, and measurement frequency. Once submitted, the product enters a verification queue , test partners physically verify product quality. Until Approved, it can't be listed. Three states: Approved, Pending, Declined. Simple. Enforceable.
 
-![Inventory — product catalogue with status filters and verification states](/demo-img/trace/trace-inventory.png)
+![Inventory , product catalogue with status filters and verification states](/demo-img/trace/trace-inventory.png)
 
 ### The listing wizard
 
-Creating a listing is the seller's most important action. I designed it as a multi-step wizard with two paths upfront: Make a Public Listing (visible to everyone) or Trade Directly with a Buyer (visible to a specific company only). Both paths share the remaining steps: Commercial Terms, Quality Assurance, Payment Terms, Shipping, Other Terms, and a full Summary that generates the Deal Slip — the formal contract shared with the buyer.
+Creating a listing is the seller's most important action. I designed it as a multi-step wizard with two paths upfront: Make a Public Listing (visible to everyone) or Trade Directly with a Buyer (visible to a specific company only). Both paths share the remaining steps: Commercial Terms, Quality Assurance, Payment Terms, Shipping, Other Terms, and a full Summary that generates the Deal Slip , the formal contract shared with the buyer.
 
-![Listing wizard — two paths: public listing or direct trade](/demo-img/trace/trace-listing-wizard.png)
+![Listing wizard , two paths: public listing or direct trade](/demo-img/trace/trace-listing-wizard.png)
 
 ### Versioned negotiations with undo
 
@@ -84,7 +140,7 @@ The negotiation system was the hardest design problem. Two parties proposing cha
 
 I designed it around three principles: both parties always see the same deal slip (single source of truth), all changes are surfaced in a "Changed Terms" panel with attribution (who changed what, when), and every change can be undone. The version history means both parties can see the complete negotiation trail from v1.0 to the final signed agreement.
 
-![Negotiation detail — versioned deal slip with changed terms history and undo](/demo-img/trace/trace-negotiation.png)
+![Negotiation detail , versioned deal slip with changed terms history and undo](/demo-img/trace/trace-negotiation.png)
 
 ### Trade execution: finance, tracking, and traceability
 
@@ -92,16 +148,32 @@ Once a deal is agreed, the trade moves to execution. The Trade detail screen has
 
 Payment milestones are structural, not informational. A buyer can't skip a milestone. The system enforces the payment schedule so neither party can deviate from what was agreed.
 
-![Trade Finance tab — three-stage payment milestones with live status](/demo-img/trace/trace-finance.png)
+![Trade Finance tab , three-stage payment milestones with live status](/demo-img/trace/trace-finance.png)
 
-![Shipment tracking — live map, order progress timeline, and tracking ID](/demo-img/trace/trace-tracking.png)
+![Shipment tracking , live map, order progress timeline, and tracking ID](/demo-img/trace/trace-tracking.png)
 
-Traceability is built into the trade, not bolted on as a compliance checkbox — it's a core tab in every executed deal.
+Traceability is built into the trade, not bolted on as a compliance checkbox , it's a core tab in every executed deal.
 
-![Traceability — miner records with auditable supply chain from source to buyer](/demo-img/trace/trace-traceability.png)
+![Traceability , miner records with auditable supply chain from source to buyer](/demo-img/trace/trace-traceability.png)
+
+### The design system that held it together
+
+Seven modules. Two user perspectives. A compliance team with regulatory requirements. An engineering team that needed to build fast. Without a shared system, this would have been seven disconnected products wearing the same logo.
+
+I built the design system in parallel with the feature work. Every time a new UI pattern stabilised , a verification gate, a status badge, a deal slip version indicator , it became a named component with defined states and variants. By the time engineering started building, the system had 40+ components covering the core patterns: verification flows (Pending, Approved, Declined), negotiation states (Draft, Countered, Accepted, Rejected), deal slip versioning, payment milestones, and the dual-perspective action bars that switched between seller and buyer contexts.
+
+The real test came during the Lingawa rebrand six months later. Because Trace's components pulled from shared design tokens, the entire platform absorbed Lingawa's new colour system and typography scale without a single component-level override. The design system didn't just make Trace consistent , it made it portable.
 
 ---
 
 ## Result
 
-Trace launched as Sabi's flagship B2B platform, handling cross-border commodity transactions across minerals and agricultural products. The platform replaced the WhatsApp-and-spreadsheet workflow for commodity traders across West Africa, with KYB verification, structured negotiations, and auditable traceability built into every deal.
+Trace launched as Sabi's flagship B2B platform, facilitating over 20,000 tons of commodity exports monthly across three continents. The platform onboarded commodity traders and logistics partners across West Africa, replacing the WhatsApp-and-spreadsheet workflow with structured, auditable transactions.
+
+The launch was a cross-functional effort: engineering built against the design system, the customer success team ran trader onboarding workshops using flows we designed together, and the legal team signed off on the KYB pipeline they had shaped from the start.
+
+Three things moved the needle:
+
+- **KYB reduced counterparty risk from days to hours.** What used to be back-channel reference checks became a 48-hour automated verification pipeline with per-director identity confirmation.
+- **Versioned negotiations eliminated disputes.** With a complete audit trail from v1.0 to the final signed deal slip, both parties could see exactly who changed what and when. No more competing screenshots.
+- **Traceability stopped being a compliance checkbox.** Miner-to-buyer records became a core tab in every executed trade, making ESG reporting structural rather than after the fact.

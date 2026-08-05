@@ -37,6 +37,9 @@ const KIND_LABEL: Record<string, string> = {
             <div><dt>Client</dt><dd>{d.client}</dd></div>
           )}
           <div><dt>Role</dt><dd>{d.role}</dd></div>
+          {d.collaborator && (
+            <div><dt>Team</dt><dd>with {d.collaborator}</dd></div>
+          )}
           {d.services && d.services.length > 0 && (
             <div><dt>Services</dt><dd>{d.services.join(', ')}</dd></div>
           )}
