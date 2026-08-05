@@ -56,7 +56,15 @@ This was the core design challenge: same screens, same data, two completely diff
 
 Before any company can trade, they complete a Know Your Business verification. Company incorporation details, director identity verification with per-director phone OTP, document uploads. Until verified by Trace's review team within 48 hours, the company can browse but can't trade. This isn't a feature buried in settings. It's the front door.
 
-![KYB verification form — company info, directors, and document uploads](/demo-img/trace/trace-kyb.png)
+<MediaGrid
+  cols={2}
+  items={[
+    { src: '/demo-img/trace/trace-kyb-company.webp', alt: 'KYB step 1, Company Details: name, logo, and registered address, with the five-step verification checklist alongside' },
+    { src: '/demo-img/trace/trace-kyb-incorporation.webp', alt: 'KYB step 2, Additional Company Details: proof of business address, tax identification number, incorporation type, and CAC document upload' },
+    { src: '/demo-img/trace/trace-kyb-director.webp', alt: "KYB step 3, Director Details: the director's personal details exactly as they appear in the company registration documents" },
+    { src: '/demo-img/trace/trace-kyb-bvn-nin.webp', alt: "KYB step 4, BVN and NIN verification: per-field Verify actions with phone OTP already confirmed, and Submit gated until identity clears" },
+  ]}
+/>
 
 ### Inventory with verification gates
 
