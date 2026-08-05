@@ -66,9 +66,11 @@
       render();
     };
 
+    const bound = new Set<Media>();
     document.querySelectorAll<HTMLElement>(GROUPS).forEach((groupEl) => {
       const media = [...groupEl.querySelectorAll<Media>('img, video')];
       media.forEach((el, idx) => {
+        bound.add(el);
         el.style.cursor = 'zoom-in';
         el.addEventListener('click', () => {
           group = media;
@@ -76,6 +78,20 @@
           render();
           dialog.showModal();
         });
+      });
+    });
+
+    // Standalone body images (markdown ![..] and MediaFull) zoom too, each as
+    // its own single-item group — no arrows, just the full-screen view. Videos
+    // outside grids/galleries stay inline-only.
+    document.querySelectorAll<HTMLImageElement>('.prose img').forEach((el) => {
+      if (bound.has(el)) return;
+      el.style.cursor = 'zoom-in';
+      el.addEventListener('click', () => {
+        group = [el];
+        i = 0;
+        render();
+        dialog.showModal();
       });
     });
 
