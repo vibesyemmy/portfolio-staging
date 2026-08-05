@@ -1,0 +1,98 @@
+---
+title: "Sabi Trace: An operating system for cross-border commodity trade"
+summary: Designed a B2B commodity trading platform handling contracting, negotiations, logistics, payment milestones, and ESG traceability for minerals and agricultural products across Africa.
+client: Sabi
+role: Senior UI/UX Designer
+collaborator: Yusuf Ibrahim
+year: 2024
+kind: case-study
+services: [Product Design, Interaction Design, UX Research, Design System]
+tags: [B2B, Trade, Logistics, Web, Africa]
+order: 6
+featured: true
+cover: /demo-img/trace/trace-dashboard.png
+---
+
+![Trace dashboard — overview of active trades, negotiations, and recent listings](/demo-img/trace/trace-dashboard.png)
+
+## Trace was a two-designer job. Yusuf Ibrahim and I split seven modules between us.
+
+---
+
+## The Problem
+
+Africa holds a significant share of the world's critical mineral reserves — lithium, tantalite, tin — plus agricultural commodities like cashew and cocoa flowing from West Africa to buyers across Europe and Asia. Multi-million dollar trades. And the transaction infrastructure for most of these deals was WhatsApp, PDF contracts over email, and manual bank transfers.
+
+No standardised way to negotiate terms. No way to track a shipment from Lagos to Accra without calling someone. No way to verify a mineral was sourced ethically. No audit trail if a deal went wrong.
+
+Africa's commodity trade was doing billions of dollars with none of the infrastructure that makes trade reliable at scale.
+
+---
+
+## The Insight
+
+A commodity trade isn't a single transaction. It's a sequence of trust events.
+
+First, verify who you're trading with (KYB). Then verify the product (quality testing). Then negotiate terms. Then agree the deal. Then manage payment in stages. Then track the shipment. Then trace the material back to its source.
+
+So we structured Trace around that sequence. Every module corresponds to a stage in the trust chain: Verify, Inventory, List, Negotiate, Trade, Track, Trace.
+
+A company that hasn't completed KYB can see the platform but can't trade. A product that hasn't passed verification can't be listed. A deal that hasn't been accepted can't move to payment. The architecture enforces the sequence because that's how trust is built in commodity trade — not through relationships, through structure.
+
+---
+
+## Designing for Two Sides of the Same Deal
+
+The product serves two users simultaneously. Sellers list products, manage inventory, negotiate terms, and dispatch shipments. Buyers discover listings, propose counter-terms, track deliveries, and manage payment milestones. The same trade looks completely different depending on which side you're on.
+
+This was the core design challenge: same screens, same data, two completely different mental models. The Seller sees a deal they published — they're accepting or countering changes. The Buyer sees a deal they received — they're proposing changes to the Seller's terms. Same deal slip. Different framing. I solved this by keeping the deal slip identical for both parties and changing only the action bar and attribution in the change history.
+
+---
+
+## How We Built It
+
+### KYB is a prerequisite, not a step
+
+Before any company can trade, they complete a Know Your Business verification. Company incorporation details, director identity verification with per-director phone OTP, document uploads. Until verified by Trace's review team within 48 hours, the company can browse but can't trade. This isn't a feature buried in settings. It's the front door.
+
+![KYB verification form — company info, directors, and document uploads](/demo-img/trace/trace-kyb.png)
+
+### Inventory with verification gates
+
+Sellers register products from Trace's catalogue (agricultural or mineral), specifying stock, capacity, warehouse location, and measurement frequency. Once submitted, the product enters a verification queue — test partners physically verify product quality. Until Approved, it can't be listed. Three states: Approved, Pending, Declined. Simple. Enforceable.
+
+![Inventory — product catalogue with status filters and verification states](/demo-img/trace/trace-inventory.png)
+
+### The listing wizard
+
+Creating a listing is the seller's most important action. I designed it as a multi-step wizard with two paths upfront: Make a Public Listing (visible to everyone) or Trade Directly with a Buyer (visible to a specific company only). Both paths share the remaining steps: Commercial Terms, Quality Assurance, Payment Terms, Shipping, Other Terms, and a full Summary that generates the Deal Slip — the formal contract shared with the buyer.
+
+![Listing wizard — two paths: public listing or direct trade](/demo-img/trace/trace-listing-wizard.png)
+
+### Versioned negotiations with undo
+
+The negotiation system was the hardest design problem. Two parties proposing changes to the same deal slip across multiple rounds. Each round gets a version number. Either party can accept, counter, or reject.
+
+I designed it around three principles: both parties always see the same deal slip (single source of truth), all changes are surfaced in a "Changed Terms" panel with attribution (who changed what, when), and every change can be undone. The version history means both parties can see the complete negotiation trail from v1.0 to the final signed agreement.
+
+![Negotiation detail — versioned deal slip with changed terms history and undo](/demo-img/trace/trace-negotiation.png)
+
+### Trade execution: finance, tracking, and traceability
+
+Once a deal is agreed, the trade moves to execution. The Trade detail screen has four tabs: Deal Slip (the final contract), Finance (three-stage payment milestones with live status), Tracking (shipment batches with tracking IDs), and Traceability (miner records creating an auditable supply chain from source to buyer).
+
+Payment milestones are structural, not informational. A buyer can't skip a milestone. The system enforces the payment schedule so neither party can deviate from what was agreed.
+
+![Trade Finance tab — three-stage payment milestones with live status](/demo-img/trace/trace-finance.png)
+
+![Shipment tracking — live map, order progress timeline, and tracking ID](/demo-img/trace/trace-tracking.png)
+
+Traceability is built into the trade, not bolted on as a compliance checkbox — it's a core tab in every executed deal.
+
+![Traceability — miner records with auditable supply chain from source to buyer](/demo-img/trace/trace-traceability.png)
+
+---
+
+## Result
+
+Trace launched as Sabi's flagship B2B platform, handling cross-border commodity transactions across minerals and agricultural products. The platform replaced the WhatsApp-and-spreadsheet workflow for commodity traders across West Africa, with KYB verification, structured negotiations, and auditable traceability built into every deal.
