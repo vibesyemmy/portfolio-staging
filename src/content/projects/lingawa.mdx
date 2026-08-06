@@ -104,7 +104,52 @@ This means the app feels different depending on who you are. Not because there a
 
 Adults navigate by modality type. Kids navigate a gamified learning map with the mascot as their guide. The touch targets are larger, the language is simpler, the sequencing is different. But under the hood, it's the same design system. The kids mode reuses 70% of the adult components. Two architectures, one token layer.
 
-![User flow diagram showing onboarding flow, modality-first home screen with 7 exercise types, and parallel kids path](/lingawa/user-flow-ia.png)
+<FlowDiagram
+  title="How learners move through Lingawa"
+  footnote="One system. Two architectures. 70% component reuse."
+  panels={[
+    {
+      title: 'Onboarding',
+      rows: [
+        { type: 'step', label: 'Language selection' },
+        { type: 'step', label: 'Proficiency assessment', note: 'Determines starting level' },
+        { type: 'decision', label: 'Age?' },
+        { type: 'split', items: ['Adult', 'Kids'] },
+      ],
+    },
+    {
+      title: 'Adult path',
+      wide: true,
+      rows: [
+        { type: 'step', label: 'Home', emphasis: true },
+        { type: 'split', items: ['Practice', 'Live Lessons', 'Progress Tracker'] },
+        {
+          type: 'chips',
+          label: 'Practice — seven modalities',
+          items: [
+            'Lesson slides',
+            'Vocab drills',
+            'Matching game',
+            'Dialogue practice',
+            'Sentence construction',
+            'Story-time reader',
+            'Practice hub',
+          ],
+          note: 'Each staged Beginner → Advanced',
+        },
+        { type: 'note', label: 'Progress Tracker aggregates every modality and syncs back to Home.' },
+      ],
+    },
+    {
+      title: 'Kids path',
+      rows: [
+        { type: 'step', label: 'Learning map' },
+        { type: 'split', items: ['Games', 'Stories', 'Songs'] },
+        { type: 'note', label: 'Same design system, different IA. Larger touch targets.' },
+      ],
+    },
+  ]}
+/>
 
 ---
 
