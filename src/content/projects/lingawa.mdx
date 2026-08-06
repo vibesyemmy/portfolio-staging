@@ -80,6 +80,34 @@ Dialogue practice and story-time reader would lean into comprehension strength, 
 
 ---
 
+## How We Structured the Experience
+
+The research gave us a clear signal: learners need multiple bridges from comprehension to production. The next question was architectural. How do you structure an app so seven distinct exercise types feel like one product, and the right learner lands on the right modality?
+
+Three decisions shaped the information architecture.
+
+### Modality-first, not lesson-linear
+
+Most language apps are a treadmill. Lesson 1 unlocks Lesson 2. You progress in a straight line or you don't progress at all. That model works for structured curricula. It doesn't work for a diaspora learner who can understand Yoruba at a family dinner but can't form a sentence on demand.
+
+The home screen surfaces three things: Practice, Live Lessons, and Progress Tracker. Practice is where the seven modalities live, each staged from Beginner to Advanced. A learner who wants dialogue today opens Practice and goes straight to it. A tired learner opens Practice and falls into the story reader. No lesson unlocks needed. The IA respects that language practice is mood-dependent, not just skill-dependent.
+
+Staging each modality — Beginner, Intermediate, Advanced — means the same exercise type grows with the learner. A beginner sentence construction session gives you a word bank. Advanced takes the scaffold away. Same modality, different difficulty. The progression is visible in the IA: every modality shows where you are and where you're going.
+
+### Onboarding as placement, not signup
+
+The proficiency assessment during onboarding determines which modality and difficulty tier the learner starts at. A high-comprehension learner lands on dialogue practice at Intermediate. A true beginner lands on lesson slides at Beginner. The age check routes kids to a separate learning map. Same onboarding flow, two possible destinations, one system.
+
+This means the app feels different depending on who you are. Not because there are multiple apps. Because the same IA adapts its entry points and starting levels. The assessment and age check are the switch.
+
+### Dual-path: adults and kids, one system
+
+Adults navigate by modality type. Kids navigate a gamified learning map with the mascot as their guide. The touch targets are larger, the language is simpler, the sequencing is different. But under the hood, it's the same design system. The kids mode reuses 70% of the adult components. Two architectures, one token layer.
+
+![User flow diagram showing onboarding flow, modality-first home screen with 7 exercise types, and parallel kids path](/lingawa/user-flow-ia.png)
+
+---
+
 ## Seven Modalities, One System
 
 ### The design system came second (and that was the problem)
