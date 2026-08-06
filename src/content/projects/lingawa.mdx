@@ -122,7 +122,9 @@ Adults navigate by modality type. Kids navigate a gamified learning map with the
       wide: true,
       rows: [
         { type: 'step', label: 'Home', emphasis: true },
-        { type: 'split', items: ['Practice', 'Live Lessons', 'Progress Tracker'] },
+        // Practice sits centre so the stem down to the modalities reads as
+        // descending from it, not from a sibling
+        { type: 'split', items: ['Live Lessons', 'Practice', 'Progress Tracker'] },
         {
           type: 'chips',
           label: 'Practice — seven modalities',

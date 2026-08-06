@@ -94,6 +94,12 @@ const { title, panels, footnote } = Astro.props;
 
 <style>
   .flow {
+    /* one hairline colour and one arrowhead geometry for every connector, so
+       stems and heads can never drift apart */
+    --flow-line: #cfcfcf;
+    --flow-head-w: 4px;
+    --flow-head-h: 7px;
+
     margin: clamp(2rem, 5vw, 4rem) 0;
     padding: clamp(1.25rem, 3vw, 2.25rem);
     background: var(--surface);
@@ -157,20 +163,28 @@ const { title, panels, footnote } = Astro.props;
     left: 50%;
     width: 1px;
     height: 28px;
-    background: var(--line);
+    background: var(--flow-line);
   }
-  /* arrowhead */
+  /* a solid triangle, not two rotated borders: a real arrowhead rather than a
+     chevron that reads as more line-work */
   .flow__row + .flow__row::after {
     content: '';
     position: absolute;
-    top: -8px;
+    top: calc(var(--flow-head-h) * -1);
     left: 50%;
-    width: 6px;
-    height: 6px;
-    border-right: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    transform: translateX(-50%) rotate(45deg);
+    width: 0;
+    height: 0;
+    border-left: var(--flow-head-w) solid transparent;
+    border-right: var(--flow-head-w) solid transparent;
+    border-top: var(--flow-head-h) solid var(--flow-line);
+    transform: translateX(-50%);
   }
+  /* a split's incoming line feeds the bracket, and the bracket's own stems carry
+     the heads — an arrowhead here would point at a line junction, not a node */
+  .flow__row--split::after {
+    display: none;
+  }
+
   /* notes are commentary, not a step: no stem into them */
   .flow__row--note + .flow__row::before,
   .flow__row--note + .flow__row::after,
@@ -225,7 +239,7 @@ const { title, panels, footnote } = Astro.props;
     grid-template-columns: repeat(var(--n, 2), 1fr);
     gap: 0.5rem;
     width: 100%;
-    padding-top: 14px;
+    padding-top: 18px;
   }
   .flow__split::before {
     content: '';
@@ -234,7 +248,7 @@ const { title, panels, footnote } = Astro.props;
     left: calc(100% / var(--n) / 2);
     right: calc(100% / var(--n) / 2);
     height: 1px;
-    background: var(--line);
+    background: var(--flow-line);
   }
   .flow__split > * {
     position: relative;
@@ -242,11 +256,24 @@ const { title, panels, footnote } = Astro.props;
   .flow__split > *::before {
     content: '';
     position: absolute;
-    top: -14px;
+    top: -18px;
     left: 50%;
     width: 1px;
-    height: 14px;
-    background: var(--line);
+    height: 18px;
+    background: var(--flow-line);
+  }
+  /* each branch gets its own head, matching the vertical connectors */
+  .flow__split > *::after {
+    content: '';
+    position: absolute;
+    top: calc(var(--flow-head-h) * -1);
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: var(--flow-head-w) solid transparent;
+    border-right: var(--flow-head-w) solid transparent;
+    border-top: var(--flow-head-h) solid var(--flow-line);
+    transform: translateX(-50%);
   }
 
   .flow__decision {
@@ -261,7 +288,7 @@ const { title, panels, footnote } = Astro.props;
     width: 3.4rem;
     height: 3.4rem;
     background: var(--bg);
-    border: 1px solid var(--line);
+    border: 1px solid var(--flow-line);
     transform: rotate(45deg);
     border-radius: 4px;
   }
