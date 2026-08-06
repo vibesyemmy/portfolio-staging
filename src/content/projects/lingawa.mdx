@@ -104,53 +104,10 @@ This means the app feels different depending on who you are. Not because there a
 
 Adults navigate by modality type. Kids navigate a gamified learning map with the mascot as their guide. The touch targets are larger, the language is simpler, the sequencing is different. But under the hood, it's the same design system. The kids mode reuses 70% of the adult components. Two architectures, one token layer.
 
-<FlowDiagram
-  title="How learners move through Lingawa"
-  footnote="One system. Two architectures. 70% component reuse."
-  panels={[
-    {
-      title: 'Onboarding',
-      rows: [
-        { type: 'step', label: 'Language selection' },
-        { type: 'step', label: 'Proficiency assessment', note: 'Determines starting level' },
-        { type: 'decision', label: 'Age?' },
-        { type: 'split', items: ['Adult', 'Kids'] },
-      ],
-    },
-    {
-      title: 'Adult path',
-      wide: true,
-      rows: [
-        { type: 'step', label: 'Home' },
-        // Practice sits centre so the stem down to the modalities reads as
-        // descending from it, not from a sibling
-        { type: 'split', items: ['Live Lessons', 'Practice', 'Progress Tracker'] },
-        {
-          type: 'chips',
-          label: 'Practice — seven modalities',
-          items: [
-            'Lesson slides',
-            'Vocab drills',
-            'Matching game',
-            'Dialogue practice',
-            'Sentence construction',
-            'Story-time reader',
-            'Practice hub',
-          ],
-          note: 'Each staged Beginner → Advanced',
-        },
-        { type: 'note', label: 'Progress Tracker aggregates every modality and syncs back to Home.' },
-      ],
-    },
-    {
-      title: 'Kids path',
-      rows: [
-        { type: 'step', label: 'Learning map' },
-        { type: 'split', items: ['Games', 'Stories', 'Songs'] },
-        { type: 'note', label: 'Same design system, different IA. Larger touch targets.' },
-      ],
-    },
-  ]}
+<MediaFull
+  width="content"
+  src="/lingawa/user-flow-ia.svg"
+  alt="How learners move through Lingawa. Onboarding: language selection, then a proficiency assessment that determines starting level, then an age check that routes to either the adult or kids path. Adult path: Home leads to Live Lessons, Practice, and Progress Tracker; Practice opens the seven modalities (lesson slides, vocab drills, matching game, dialogue practice, sentence construction, story-time reader, practice hub), each staged Beginner to Advanced, while Progress Tracker aggregates every modality and syncs back to Home. Kids path: a learning map leading to Games, Stories, and Songs, using the same design system with a different IA and larger touch targets. One system, two architectures, 70% component reuse."
 />
 
 ---
