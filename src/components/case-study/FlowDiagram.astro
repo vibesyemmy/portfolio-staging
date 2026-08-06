@@ -15,7 +15,6 @@ export interface Row {
   label?: string;
   note?: string;
   items?: string[];
-  emphasis?: boolean;
 }
 export interface Panel {
   title: string;
@@ -46,7 +45,7 @@ const { title, panels, footnote } = Astro.props;
           {panel.rows.map((row) => (
             <div class:list={['flow__row', `flow__row--${row.type}`]}>
               {row.type === 'step' && (
-                <div class:list={['flow__node', row.emphasis && 'flow__node--lead']}>
+                <div class="flow__node">
                   <span>{row.label}</span>
                   {row.note && <em class="flow__node-note">{row.note}</em>}
                 </div>
@@ -212,12 +211,6 @@ const { title, panels, footnote } = Astro.props;
     line-height: 1.3;
     color: var(--ink);
   }
-  .flow__node--lead {
-    background: var(--ink);
-    color: var(--surface);
-    border-color: var(--ink);
-    font-weight: 600;
-  }
   .flow__node--sm {
     padding: 0.45rem 0.4rem;
     font-size: 0.78rem;
@@ -226,9 +219,6 @@ const { title, panels, footnote } = Astro.props;
     font-size: 0.72rem;
     font-style: italic;
     color: var(--ink-2);
-  }
-  .flow__node--lead .flow__node-note {
-    color: var(--dark-ink-2);
   }
 
   /* Siblings share one bracket. The horizontal rule stops at the centre of the
