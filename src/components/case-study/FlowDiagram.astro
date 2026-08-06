@@ -332,15 +332,15 @@ const { title, panels, footnote } = Astro.props;
     color: var(--ink-2);
   }
 
+  /* a footnote, not a banner: the diagram is the argument, this just signs it off */
   .flow__footnote {
-    margin-top: clamp(1.5rem, 3vw, 2rem);
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--accent);
-    border-radius: var(--radius-pill);
+    margin-top: clamp(1.25rem, 2.5vw, 1.75rem);
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
     text-align: center;
-    font-weight: 600;
-    font-size: var(--text-small);
-    color: var(--accent-text);
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--ink-2);
   }
 
   /* Stack the panels rather than shrink them: three columns of boxed text is
